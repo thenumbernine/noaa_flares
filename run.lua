@@ -70,6 +70,12 @@ function NetCDFAttr:init(args)
 
 	if self.type == nc.NC_STRING then
 		self.value = "<idk how to read strings>"
+		-- TODO is this nc_get_att_string ?
+		local values = ffi.new('char *[1]')	-- how many strings?  self.len?  this file doesn't have string attributes (only char[] attributes ...)
+		ncsafecall('nc_get_att_string', self.var.nc.id, self.var.id, self.name, values)
+		local result = ffi.string(values[0])
+		nc.nc_free_string(1, values)
+		self.value = result
 	else
 		local ctype = ctypeForNCType[self.type]
 		local value = ffi.new(ctype..'[?]', self.len)
@@ -156,35 +162,6 @@ function NetCDFVar:init(args)
 	for i=0,self.ndims-1 do
 		count[i] = self.nc.dimptr[i]
 	end
-
-	--[==[
-	local value
-	if self.type == nc.NC_STRING then
-		value = "<idk how to read strings>"
-	else
-		local ctype = ctypeForNCType[self.type]
-		--[=[ after I call this once, I will always get a segfault at the end of my program, even after closing the file
-		value = ffi.new(ctype..'[1]', 0)
-		ncsafecall('nc_get_var', self.nc.id, self.id, value)
-		value = value[0]
-		--]=]
-		--[=[ I could use this ... but the index vector is an array-of-integers ... BUT WHAT IS THE LENGTH?!?!?!?!
-		-- I'm just guessing it's either nc_inq's "ndims" or nc_inq_varndims ... in my file's case the first is 1 and 
-		value = ffi.new(ctype..'[1]', 0)
-		local index = ffi.new('size_t[1]', 0)
-		ncsafecall('nc_get_var1', self.nc.id, self.id, index, value)
-		value = value[0]
-		--]=]
-		-- [=[ so how am I supposed to know how big the array is?
-		local values = ffi.new(ctype..'[?]', self.nc.totalcount)	-- I guess this array is the product of count[0]...count[q-1] ?
-		ncsafecall('nc_get_vara', self.nc.id, self.id, start, count, values)
-		value = range(0,self.nc.totalcount-1):mapi(function(i) 
-			return '\t'..tostring(values[i]) 
-		end):concat'\n'
-		--]=]
-	end
-	print(' value=\n'..tostring(value))
-	--]==]
 end
 
 function NetCDFVar:__tostring()
@@ -194,7 +171,7 @@ function NetCDFVar:__tostring()
 		..' ndims='..self.ndims
 		..' dimids='..self.dimids
 		..' natts='..#self.attrs
-		..' name='..self.name
+		..' name="'..self.name..'"'
 	..'}'
 end
 
@@ -209,8 +186,11 @@ function NetCDFVar:get(...)
 	end
 	
 	if self.type == nc.NC_STRING then
-		return "<idk how to read strings>"
-		--error"<idk how to read strings>"
+		local values = ffi.new('char *[1]')
+		ncsafecall('nc_get_vara_string', self.nc.id, self.id, start, count, values)
+		local result = ffi.string(values[0])
+		ncsafecall('nc_free_string', 1, values)
+		return result
 	else
 		local ctype = ctypeForNCType[self.type]
 		local values = ffi.new(ctype..'[?]', 1)	-- I guess this array is the product of count[0]...count[q-1] ?
@@ -268,7 +248,7 @@ print('dims:')
 			name[ffi.sizeof(name)-1] = 0
 			ncsafecall('ncdiminq', self.id, dimid, name, self.dimptr + dimid)
 			name = ffi.string(name)
-print(' dim id='..dimid..' size='..tostring(self.dimptr[dimid])..' name='..name)
+print(' dim id='..dimid..' size='..tostring(self.dimptr[dimid])..' name="'..name..'"')
 			table.insert(self.dims, {
 				name = name,
 				size = self.dimptr[dimid],
@@ -323,6 +303,7 @@ end
 -- TODO vector iterator
 print'values:'
 for i=0,tonumber(netcdf.dimptr[0])-1 do
+	io.write(i)
 	for _,var in ipairs(netcdf.vars) do
 		io.write('\t', tostring(var:get(i)))
 	end
