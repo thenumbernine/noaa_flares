@@ -1,9 +1,28 @@
-netcdf files from [https://data.ngdc.noaa.gov/platforms/solar-space-observing-satellites/goes/goes16/l2/data/xrsf-l2-flsum_science/2021/10/](here)
+Usage:
+
+1) `download-txts.lua`
+1.5) `mkdir txt && mv *.txt txt/`
+
+2) `download-ncs.lua`
+2.5) `mkdir nc && mv *.nc nc/`
+
+3.1) `mkdir nc_txt`
+3.2) `cp txt/* nc_txt/*`
+3.3) `rm nc_txt/goes-xrs-report_2015.txt`	 because it has duplicates of `goes-xrs-report_2015_modifiedreplacedmissingrows.txt`
+3.4) `rm nc_txt/goes-xrs-report_2017-input-ytd.txt` because it's nonsense
+
+3.5) `./nc_to_txt.lua`
+
+4) `./count-flares.lua > flares.txt`
+
+5) `./plot.gnuplot`
+
+netcdf files from [https://data.ngdc.noaa.gov/platforms/solar-space-observing-satellites/goes/goes16/l2/data/xrsf-l2-flsum/2021/10/](here)
 
 txt location:
 `https://www.ngdc.noaa.gov/stp/space-weather/solar-data/solar-features/solar-flares/x-rays/goes/xrs/`
 
 netcdf location:
-`https://data.ngdc.noaa.gov/platforms/solar-space-observing-satellites/goes/goes16/l2/data/xrsf-l2-flsum_science/` 4-digit-year (2017-2021) `/` 2-digit-month (1-12, or 1-10 of current year) `/`
+`https://data.ngdc.noaa.gov/platforms/solar-space-observing-satellites/goes/goes16/l2/data/xrsf-l2-flsum/` 4-digit-year (2017-2021) `/` 2-digit-month (1-12, or 1-10 of current year) `/`
 filename:
-`sci_xrsf-l2-flsum_g16_d` 4-digit-year 2-digit-month 2-digit-day `_v2-1-0.nc`
+`dn_xrsf-l2-flsum_g16_d` 4-digit-year 2-digit-month 2-digit-day `_v2-1-0.nc`
