@@ -13,7 +13,9 @@ Usage:
 
 3.5) `./nc_to_txt.lua`
 
-4) `./count-flares.lua > flares.txt`
+4) `./count-flares.lua`		
+	This will write 'flares.txt' as per-year flares of each type.
+	This will also write 'totalflares-per-month.txt' as total flares of each month.
 
 5) `./plot.gnuplot`
 

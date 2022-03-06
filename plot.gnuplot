@@ -1,14 +1,24 @@
 #!/usr/bin/env gnuplot
 set terminal svg size 1024,768 background rgb "white"
-set output "flares.svg"
 set style data linespoints
+
+max(a,b) = a > b ? a : b
+
+fn = "flares.txt"
+set output "flares.svg"
 set xlabel "year"
 set ylabel "count"
 set log y
-fn = "flares.txt"
 plot [1975:2021]\
-	fn using 1:2 title "A" linecolor rgb "blue",\
-	fn using 1:3 title "B" linecolor rgb "cyan",\
-	fn using 1:4 title "C" linecolor rgb "green",\
-	fn using 1:5 title "M" linecolor rgb "orange",\
-	fn using 1:6 title "X" linecolor rgb "red"
+	fn using 1:(max($2,.1)) title "A" linecolor rgb "blue",\
+	fn using 1:(max($3,.1)) title "B" linecolor rgb "cyan",\
+	fn using 1:(max($4,.1)) title "C" linecolor rgb "green",\
+	fn using 1:(max($5,.1)) title "M" linecolor rgb "orange",\
+	fn using 1:(max($6,.1)) title "X" linecolor rgb "red"
+
+fn = "totalflares-per-month.txt"
+set output "totalflares-per-month.svg"
+set xlabel "year+month"
+set ylabel "count"
+unset log y
+plot fn using 1:2
