@@ -9,17 +9,22 @@
 Usage:
 
 1) `download-txts.lua` ... for the old txt data
-1.5) `mkdir txt && mv *.txt txt/`
 
 2) `download-ncs.lua` ... for the up to the most recent .ncs data
-2.5) `mkdir nc && mv *.nc nc/`
+
+3) to convert the old txt into nc's:
 
 3.1) `mkdir nc_txt`
+
 3.2) `cp txt/* nc_txt/*`
+
 3.3) `rm nc_txt/goes-xrs-report_2015.txt`	 because it has duplicates of `goes-xrs-report_2015_modifiedreplacedmissingrows.txt`
+
 3.4) `rm nc_txt/goes-xrs-report_2017-input-ytd.txt` because it's nonsense
 
-3.5) `./nc_to_txt.lua`
+3.5) to convert the new nc's into txts:
+
+3.6) `./nc_to_txt.lua`
 
 4) `./count-flares.lua`		
 	This will write 'flares.txt' as per-year flares of each type.

@@ -1,8 +1,9 @@
 #!/usr/bin/env lua
+os.execute'mkdir txt'
 local url = 'https://www.ngdc.noaa.gov/stp/space-weather/solar-data/solar-features/solar-flares/x-rays/goes/xrs/'
 for year=1975,2016 do
-	os.execute('wget '..url..'goes-xrs-report_'..year..'.txt')
+	os.execute('cd txt && wget '..url..'goes-xrs-report_'..year..'.txt')
 end
-os.execute('wget '..url..'goes-xrs-report_2015_modifiedreplacedmissingrows.txt')
-os.execute('wget '..url..'goes-xrs-report_2017-input-ytd.txt')
-os.execute('wget '..url..'goes-xrs-report_2017-ytd.txt')
+os.execute('cd txt && wget '..url..'goes-xrs-report_2015_modifiedreplacedmissingrows.txt')
+os.execute('cd txt && wget '..url..'goes-xrs-report_2017-input-ytd.txt')
+os.execute('cd txt && wget '..url..'goes-xrs-report_2017-ytd.txt')
