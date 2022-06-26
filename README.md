@@ -1,10 +1,10 @@
-# Flares Per Class
+# Flares Per Class Per Year
 
 ![Flares Per Class](flares.svg)
 
-# Total Flares
+# Total Flares Per Month
 
-![Total Flares](total-flares.svg)
+![Total Flares](totalflares-per-month.svg)
 
 Usage:
 
