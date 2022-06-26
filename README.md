@@ -1,9 +1,9 @@
 Usage:
 
-1) `download-txts.lua`
+1) `download-txts.lua` ... for the old txt data
 1.5) `mkdir txt && mv *.txt txt/`
 
-2) `download-ncs.lua`
+2) `download-ncs.lua` ... for the up to the most recent .ncs data
 2.5) `mkdir nc && mv *.nc nc/`
 
 3.1) `mkdir nc_txt`
@@ -25,6 +25,6 @@ txt location:
 `https://www.ngdc.noaa.gov/stp/space-weather/solar-data/solar-features/solar-flares/x-rays/goes/xrs/`
 
 netcdf location:
-`https://data.ngdc.noaa.gov/platforms/solar-space-observing-satellites/goes/goes16/l2/data/xrsf-l2-flsum/` 4-digit-year (2017-2021) `/` 2-digit-month (1-12, or 1-10 of current year) `/`
+`https://data.ngdc.noaa.gov/platforms/solar-space-observing-satellites/goes/goes16/l2/data/xrsf-l2-flsum/` 4-digit-year (2017-2022) `/` 2-digit-month (1-12, or 1-10 of current year) `/`
 filename:
 `dn_xrsf-l2-flsum_g16_d` 4-digit-year 2-digit-month 2-digit-day `_v2-1-0.nc`

@@ -80,7 +80,7 @@ end
 
 local f = io.open('flares.txt', 'w')
 f:write('# year A B C M X\n')
-for y=1975,2021 do
+for y=1975,2022 do
 	local row = magsPerYear[''..y] or {}
 	f:write(y)
 	for _,k in ipairs(magkeys) do
