@@ -15,10 +15,13 @@ plot [1975:2022]\
 	fn using 1:(max($4,.1)) title "C" linecolor rgb "green",\
 	fn using 1:(max($5,.1)) title "M" linecolor rgb "orange",\
 	fn using 1:(max($6,.1)) title "X" linecolor rgb "red"
+unset log y
 
 fn = "totalflares-per-month.txt"
 set output "totalflares-per-month.svg"
 set xlabel "year+month"
 set ylabel "count"
-unset log y
-plot fn using 1:2
+set xdata time
+set timefmt "%Y-%m"
+set format x "%Y" 
+plot fn using 1:2 notitle

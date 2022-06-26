@@ -94,6 +94,11 @@ f:close()
 local f = io.open('totalflares-per-month.txt', 'w')
 f:write'# year-month\n'
 for i=table.inf(table.keys(allFlaresPerMonth)),table.sup(table.keys(allFlaresPerMonth)) do
-	f:write(i, '\t', allFlaresPerMonth[i] or 0, '\n')
+	f:write(
+		('%04d-%02d'):format(i/12, i%12+1), 
+		'\t', 
+		allFlaresPerMonth[i] or 0, 
+		'\n'
+	)
 end
 f:close()
