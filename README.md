@@ -6,6 +6,10 @@
 
 ![Total Flares](totalflares-per-month.svg)
 
+# ...smoothed
+
+![...smoothed](totalflares-per-month-smoothed.svg)
+
 Usage:
 
 1) `download-txts.lua` ... for the old txt data
