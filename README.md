@@ -1,3 +1,11 @@
+# Flares Per Class
+
+![Flares Per Class](flares.svg)
+
+# Total Flares
+
+![Total Flares](total-flares.svg)
+
 Usage:
 
 1) `download-txts.lua` ... for the old txt data
