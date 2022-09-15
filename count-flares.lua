@@ -8,7 +8,7 @@ local totalFlareLevel = 1
 local magsPerYear = {}
 local allFlaresPerMonth = {}
 
-for f in os.listdir'nc_txt' do
+for f in file'nc_txt':dir() do
 --print('f', f)
 	local year, month
 	local filetype
@@ -78,7 +78,7 @@ for f in os.listdir'nc_txt' do
 --	do break end
 end
 
-local f = io.open('flares.txt', 'w')
+local f = file'flares.txt':open'w'
 f:write('# year A B C M X\n')
 for y=1975,2022 do
 	local row = magsPerYear[''..y] or {}
@@ -91,7 +91,7 @@ end
 f:close()
 --print(tolua(magsPerYear))
 
-local f = io.open('totalflares-per-month.txt', 'w')
+local f = file'totalflares-per-month.txt':open'w'
 f:write'# year-month\n'
 for i=table.inf(table.keys(allFlaresPerMonth)),table.sup(table.keys(allFlaresPerMonth)) do
 	f:write(
