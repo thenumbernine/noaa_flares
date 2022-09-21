@@ -22,7 +22,7 @@ Usage:
 
 3.1) `mkdir nc_txt`
 
-3.2) `cp txt/* nc_txt/*`
+3.2) `cp txt/* nc_txt/`
 
 3.3) `rm nc_txt/goes-xrs-report_2015.txt`	 because it has duplicates of `goes-xrs-report_2015_modifiedreplacedmissingrows.txt`
 

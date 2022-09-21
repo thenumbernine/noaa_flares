@@ -18,6 +18,7 @@ for year=2017,2021 do
 end
 --]]
 local today = os.date'*t'
+file'nc':mkdir(true)
 for t=os.time{year=today.year, month=today.month, day=today.day},0,-24*60*60 do
 	local d = os.date('*t', t)
 	local year = d.year
