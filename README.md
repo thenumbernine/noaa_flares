@@ -3,11 +3,15 @@
 
 # Flares Per Class Per Year
 
-![Flares Per Class](flares.svg)
+![Flares Per Class Per Year](flares-per-type-per-year.svg)
+
+# Flares Per Class Per Month 
+
+![Flares Per Class Per Month](flares-per-type-per-month.svg)
 
 # Total Flares Per Month
 
-![Total Flares](totalflares-per-month.svg)
+![Total Flares Per Month](totalflares-per-month.svg)
 
 # ...smoothed
 
@@ -34,8 +38,9 @@ Usage:
 3.6) `./nc_to_txt.lua`
 
 4) `./count-flares.lua`		
-	This will write 'flares.txt' as per-year flares of each type.
-	This will also write 'totalflares-per-month.txt' as total flares of each month.
+	This will write 'flares-per-type-per-year.txt' as per-year flares of each type.
+	This will also write 'flares-per-type-per-month.txt' as per-month flares of each type.
+	This will also write 'totalflares-per-month.txt' as per-month total flares.
 
 5) `./plot.gnuplot`
 

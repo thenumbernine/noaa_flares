@@ -5,6 +5,7 @@ local magkeys = table{'A', 'B', 'C', 'M', 'X'}
 local isvalid = magkeys:mapi(function(v,k) return k,v end):setmetatable(nil)
 local totalFlareLevel = 1
 
+local magsPerMonth = {}
 local magsPerYear = {}
 local allFlaresPerMonth = {}
 
@@ -28,6 +29,7 @@ for f in file'nc_txt':dir() do
 	end
 	assert(year)
 	assert(filetype)
+	--magsPerMonth[yearAndMonth] = magsPerMonth[yearAndMonth] or {}
 	magsPerYear[year] = magsPerYear[year] or {}
 	local line = 1
 	for l in io.lines('nc_txt/'..f) do
@@ -42,7 +44,9 @@ for f in file'nc_txt':dir() do
 					x = w[6]:sub(1,1)
 					assert(x)
 					assert(isvalid[x])
-	--print(x)
+--print(x)
+					magsPerMonth[yearAndMonth] = magsPerMonth[yearAndMonth] or {}
+					magsPerMonth[yearAndMonth][x] = (magsPerMonth[yearAndMonth][x] or 0) + 1
 					magsPerYear[year][x] = (magsPerYear[year][x] or 0) + 1
 					if isvalid[x] >= totalFlareLevel then
 						allFlaresPerMonth[yearAndMonth] = (allFlaresPerMonth[yearAndMonth] or 0) + 1
@@ -63,9 +67,11 @@ for f in file'nc_txt':dir() do
 				x = l:sub(60,60)
 				assert(x)
 				if not isvalid[x] then
-	io.stderr:write('file: '..f..' line: '..line..' col 60 is '..('%q'):format(x)..'\n')
+io.stderr:write('file: '..f..' line: '..line..' col 60 is '..('%q'):format(x)..'\n')
 				else
-	--print(x)
+--print(x)
+					magsPerMonth[yearAndMonth] = magsPerMonth[yearAndMonth] or {}
+					magsPerMonth[yearAndMonth][x] = (magsPerMonth[yearAndMonth][x] or 0) + 1
 					magsPerYear[year][x] = (magsPerYear[year][x] or 0) + 1
 					if isvalid[x] >= totalFlareLevel then
 						allFlaresPerMonth[yearAndMonth] = (allFlaresPerMonth[yearAndMonth] or 0) + 1
@@ -78,7 +84,7 @@ for f in file'nc_txt':dir() do
 --	do break end
 end
 
-local f = file'flares.txt':open'w'
+local f = file'flares-per-type-per-year.txt':open'w'
 f:write('# year A B C M X\n')
 for y=1975,2022 do
 	local row = magsPerYear[''..y] or {}
@@ -91,9 +97,24 @@ end
 f:close()
 --print(tolua(magsPerYear))
 
+local allMonths = table.keys(allFlaresPerMonth):sort()
+local f = file'flares-per-type-per-month.txt':open'w'
+f:write('# month A B C M X\n')
+for i=allMonths[1],allMonths:last() do
+	local row = magsPerMonth[i]
+	f:write(
+		('%04d-%02d'):format(i/12, i%12+1), 
+		'\t')
+	for _,k in ipairs(magkeys) do
+		f:write('\t', row and row[k] or 0)
+	end
+	f:write'\n'
+end
+f:close()
+
 local f = file'totalflares-per-month.txt':open'w'
 f:write'# year-month\n'
-for i=table.inf(table.keys(allFlaresPerMonth)),table.sup(table.keys(allFlaresPerMonth)) do
+for i=allMonths[1],allMonths:last() do
 	f:write(
 		('%04d-%02d'):format(i/12, i%12+1), 
 		'\t', 
