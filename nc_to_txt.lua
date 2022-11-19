@@ -1,7 +1,13 @@
 #!/usr/bin/env luajit
 local os = require 'ext.os'
 local file = require 'ext.file'
+local table = require 'ext.table'
+local fs = table()
 for f in file'nc':dir() do
+	fs:insert(f)
+end
+fs:sort()
+for _,f in ipairs(fs) do
 	local base, ext = file(f):getext()
 	assert(ext == 'nc', "found file "..tostring(f).." with extension "..tostring(ext))
 	--io.write(base, ' ', ext)
