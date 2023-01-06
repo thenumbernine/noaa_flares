@@ -86,7 +86,7 @@ end
 
 local f = file'flares-per-type-per-year.txt':open'w'
 f:write('# year A B C M X\n')
-for y=1975,2022 do
+for y=1975,os.date'*t'.year do
 	local row = magsPerYear[''..y] or {}
 	f:write(y)
 	for _,k in ipairs(magkeys) do
