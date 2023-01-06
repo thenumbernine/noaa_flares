@@ -9,7 +9,7 @@ set output "flares-per-type-per-year.svg"
 set xlabel "year"
 set ylabel "count"
 set log y
-plot [1975:2023]\
+plot [1975:tm_year(time(0))]\
 	fn using 1:(max($2,.1)) title "A" linecolor rgb "blue",\
 	fn using 1:(max($3,.1)) title "B" linecolor rgb "cyan",\
 	fn using 1:(max($4,.1)) title "C" linecolor rgb "green",\
