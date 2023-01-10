@@ -9,7 +9,12 @@ local magsPerMonth = {}
 local magsPerYear = {}
 local allFlaresPerMonth = {}
 
+local fs = table()
 for f in file'nc_txt':dir() do
+	fs:insert(f)
+end
+fs:sort()
+for _,f in ipairs(fs) do
 --print('f', f)
 	local year, month
 	local filetype
