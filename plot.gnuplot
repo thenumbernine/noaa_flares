@@ -32,12 +32,11 @@ set xdata time
 set timefmt "%Y-%m"
 set format x "%Y" 
 set log y
-plot \
-	fn using 1:(max($2,.1)) title "A" linecolor rgb "blue" pointtype 5 pointsize .3,\
-	fn using 1:(max($3,.1)) title "B" linecolor rgb "cyan" pointtype 5 pointsize .3,\
-	fn using 1:(max($4,.1)) title "C" linecolor rgb "green" pointtype 5 pointsize .3,\
-	fn using 1:(max($5,.1)) title "M" linecolor rgb "orange" pointtype 5 pointsize .3,\
-	fn using 1:(max($6,.1)) title "X" linecolor rgb "red" pointtype 5 pointsize .3
+plot fn using 1:(max($2,.1)):(0) title "A" linecolor rgb "blue" pointtype 5 pointsize .3 with filledcurves,\
+	fn using 1:(max($3,.1)):(0) title "B" linecolor rgb "cyan" pointtype 5 pointsize .3 with filledcurves,\
+	fn using 1:(max($4,.1)):(0) title "C" linecolor rgb "green" pointtype 5 pointsize .3 with filledcurves,\
+	fn using 1:(max($5,.1)):(0) title "M" linecolor rgb "orange" pointtype 5 pointsize .3 with filledcurves,\
+	fn using 1:(max($6,.1)):(0) title "X" linecolor rgb "red" pointtype 5 pointsize .3 with filledcurves
 unset log y
 
 fn = "totalflares-per-month.txt"
