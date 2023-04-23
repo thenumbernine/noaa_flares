@@ -18,7 +18,7 @@ for _,f in ipairs(fs) do
 --print('f', f)
 	local year, month
 	local filetype
-	local y,m,d = f:match'^dn_xrsf%-l2%-flsum_g16_d(%d%d%d%d)(%d%d)(%d%d)_v2%-1%-0%.txt$'
+	local y,m,d,ver = f:match'^dn_xrsf%-l2%-flsum_g16_d(%d%d%d%d)(%d%d)(%d%d)_v(%d%-%d%-%d)%.txt$'
 --print(y,m,d)
 	local yearAndMonth
 	if y then
