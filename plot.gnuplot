@@ -23,6 +23,8 @@ plot \
 unset log y
 unset xrange
 
+set terminal svg size 2048,768 background rgb "white"
+
 fn = "flares-per-type-per-month.txt"
 set style data lines
 set output "flares-per-type-per-month.svg"
@@ -31,6 +33,7 @@ set ylabel "count"
 set xdata time
 set timefmt "%Y-%m"
 set format x "%Y" 
+set xrange ["1976-01":sprintf("%04d-%02d", year, month)]
 set log y
 plot fn using 1:(max($2,.1)):(0) title "A" linecolor rgb "blue" with filledcurves,\
 	fn using 1:(max($3,.1)):(0) title "B" linecolor rgb "cyan" with filledcurves,\
