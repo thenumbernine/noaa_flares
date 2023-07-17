@@ -10,7 +10,7 @@ local magsPerYear = {}
 local allFlaresPerMonth = {}
 
 local fs = table()
-for f in file'nc_txt':dir() do
+for f in path'nc_txt':dir() do
 	fs:insert(f)
 end
 fs:sort()
@@ -89,7 +89,7 @@ io.stderr:write('file: '..f..' line: '..line..' col 60 is '..('%q'):format(x)..'
 --	do break end
 end
 
-local f = file'flares-per-type-per-year.txt':open'w'
+local f = path'flares-per-type-per-year.txt':open'w'
 f:write('# year A B C M X\n')
 for y=1975,os.date'*t'.year do
 	local row = magsPerYear[''..y] or {}
@@ -103,7 +103,7 @@ f:close()
 --print(tolua(magsPerYear))
 
 local allMonths = table.keys(allFlaresPerMonth):sort()
-local f = file'flares-per-type-per-month.txt':open'w'
+local f = path'flares-per-type-per-month.txt':open'w'
 f:write('# month A B C M X\n')
 for i=allMonths[1],allMonths:last() do
 	local row = magsPerMonth[i]
@@ -117,7 +117,7 @@ for i=allMonths[1],allMonths:last() do
 end
 f:close()
 
-local f = file'totalflares-per-month.txt':open'w'
+local f = path'totalflares-per-month.txt':open'w'
 f:write'# year-month\n'
 for i=allMonths[1],allMonths:last() do
 	f:write(

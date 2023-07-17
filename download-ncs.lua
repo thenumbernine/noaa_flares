@@ -1,5 +1,5 @@
 #!/usr/bin/env lua
-local file = require 'ext.file'
+local path = require 'ext.path'
 -- which should I use, _science or not _science?
 -- not _science:
 local url = 'https://data.ngdc.noaa.gov/platforms/solar-space-observing-satellites/goes/goes16/l2/data/xrsf-l2-flsum/'
@@ -14,7 +14,7 @@ for year=2017,2021 do
 		for day=1,31 do
 			local ds = ('%02d'):format(day)
 			local fn = 'dn_xrsf-l2-flsum_g16_d'..year..ms..ds..'_v2-1-0.nc'
-			if not file(fn):exists() then
+			if not path(fn):exists() then
 				os.execute('cd nc && wget '..url..year..'/'..ms..'/'..fn)
 			end
 		end
@@ -22,7 +22,7 @@ for year=2017,2021 do
 end
 --]]
 local today = os.date'*t'
-file'nc':mkdir(true)
+path'nc':mkdir(true)
 for t=os.time{year=today.year, month=today.month, day=today.day},0,-24*60*60 do
 	local d = os.date('*t', t)
 	local year = d.year
@@ -31,7 +31,7 @@ for t=os.time{year=today.year, month=today.month, day=today.day},0,-24*60*60 do
 	-- TODO instead search for *any* file with this timestamp of *any* version
 	-- but you only have to take this into account when version suffixes change
 	local fn = 'dn_xrsf-l2-flsum_g16_d'..year..ms..ds..ver..'.nc'
-	if file('nc/'..fn):exists() then
+	if path('nc/'..fn):exists() then
 		print(fn..' exists')
 		break
 	else
