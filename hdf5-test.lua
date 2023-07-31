@@ -2,7 +2,7 @@
 --[[
 trying to follow http://web.mit.edu/fwtools_v3.1.0/www/H5.intro.html
 --]]
-local hdf5 = require 'ffi.hdf5'
+local hdf5 = require 'ffi.req' 'hdf5'
 local class = require 'ext.class'
 local ffi = require 'ffi'
 
