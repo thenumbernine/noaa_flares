@@ -11,7 +11,7 @@ local allFlaresPerMonth = {}
 
 local fs = table()
 for f in path'nc_txt':dir() do
-	fs:insert(f)
+	fs:insert(f.path)
 end
 fs:sort()
 for _,f in ipairs(fs) do

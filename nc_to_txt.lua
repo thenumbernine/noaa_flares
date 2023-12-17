@@ -4,7 +4,7 @@ local path = require 'ext.path'
 local table = require 'ext.table'
 local fs = table()
 for f in path'nc':dir() do
-	fs:insert(f)
+	fs:insert(f.path)
 end
 fs:sort()
 for _,f in ipairs(fs) do
