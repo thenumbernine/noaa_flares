@@ -13,14 +13,14 @@ for _,f in ipairs(fs) do
 		io.stderr:write("found file "..tostring(f).." with extension "..tostring(ext)..'\n')
 	else
 		--io.write(base, ' ', ext)
-		local dst = 'nc_txt/'..base..'.txt'
-		io.write(dst)
-		if path(dst):exists()
-		and path(dst):attr().size > 0
+		local dst = path'nc_txt'/(base..'.txt')
+		io.write(dst.path)
+		if dst:exists()
+		and dst:attr().size > 0
 		then	-- TODO check timestamp?
 			print(' ... exists')
 		else
-			os.execute('../netcdf/test.lua nc/'..f..' > '..dst)
+			os.execute('../netcdf/test.lua nc/'..f..' > '..dst:escape())
 			print(' ... done')
 		end
 	end
