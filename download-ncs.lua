@@ -42,7 +42,9 @@ for t=os.time{year=today.year, month=today.month, day=today.day},0,-24*60*60 do
 			return
 		else
 			print(fn..' ... downloading')
-			assert(os.execute('cd nc && wget '..url..year..'/'..ms..'/'..fn))
+			--assert(
+				os.execute('cd nc && wget '..url..year..'/'..ms..'/'..fn)
+			--)
 		end
 	end
 end
