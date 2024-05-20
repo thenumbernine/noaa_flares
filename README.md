@@ -44,7 +44,7 @@ Usage:
 
 5) `./plot.gnuplot`
 
-6) `/path/to/smooth_graph/smooth_graph.lua totalflares-per-month.txt 50 totalflares-per-month-smoothed.svg`
+6) `./smoothplot.sh`
 
 netcdf files from https://data.ngdc.noaa.gov/platforms/solar-space-observing-satellites/goes/goes16/l2/data/xrsf-l2-flsum/2021/10/
 
