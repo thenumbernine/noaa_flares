@@ -4,7 +4,8 @@ require 'ext'
 local magkeys = table{'A', 'B', 'C', 'M', 'X'}
 local isvalid = magkeys:mapi(function(v,k) return k,v end):setmetatable(nil)
 local totalFlareLevel = 1
-	
+
+local secondsPerDay = 60 * 60 * 24
 local synodicMonth = 29.530	-- days for the moon to orbit the Earth relative to Sun
 
 local magsPerMoonDay = {}
@@ -33,7 +34,7 @@ for _,f in ipairs(fs) do
 			year = y
 			month = m
 			yearAndMonth = month-1 + 12 * year
-			local dayTime = os.time{year=year, month=month, day=d} / (60*60*24)
+			local dayTime = os.time{year=year, month=month, day=d} / secondsPerDay
 			uniqueDay = math.floor(dayTime) 	-- TODO use julian day
 			moonDay = math.floor(uniqueDay % synodicMonth)
 		else
@@ -89,7 +90,7 @@ for _,f in ipairs(fs) do
 					local dayTime = (
 						os.time{year=year, month=month, day=day}
 						or error("failed to get os.time() for "..tolua{year=y2, month=month, day=day})
-					) / (60*60*24)
+					) / secondsPerDay
 					uniqueDay = math.floor(dayTime) 	-- TODO use julian day
 					local synodicMonth = 29.530	-- days for the moon to orbit the Earth relative to Sun
 					moonDay = math.floor(uniqueDay % synodicMonth)
@@ -196,6 +197,6 @@ for i=allMonths[1],allMonths:last() do
 	)
 end
 
-print('current moon phase day:', (os.time() / (60*60*24)) % synodicMonth)
+print('current moon phase day:', (os.time() / secondsPerDay) % synodicMonth)
 
 f:close()
