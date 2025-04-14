@@ -59,6 +59,7 @@ set timefmt "%Y-%m"
 set format x "%Y" 
 plot fn using (timecolumn(1)):2 notitle
 
+# not sure if this is useful ...
 fn = "flares-per-type-per-moon-day.txt"
 set style data lines
 set output "flares-per-type-per-moon-day.svg"
@@ -75,3 +76,11 @@ plot fn using 1:(max($2,.1)):(0) title "A" linecolor rgb "blue" with filledcurve
 	fn using 1:(max($5,.1)):(0) title "M" linecolor rgb "orange" with filledcurves,\
 	fn using 1:(max($6,.1)):(0) title "X" linecolor rgb "red" with filledcurves
 unset log y
+unset xtics
+
+# not sure if this is useful ...
+fn = "all-flares-intensity-vs-moon-phase.txt"
+set output "all-flares-intensity-vs-moon-phase.svg"
+set xlabel "moon phase"
+set ylabel "log(10) intensity"
+plot fn using 1:2 with points pointtype 7 pointsize .2 notitle

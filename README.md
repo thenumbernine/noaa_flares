@@ -16,11 +16,6 @@
 
 ![...smoothed](totalflares-per-month-smoothed.svg)
 
-# Flares Per Class Per Synodic Moon Day
-
-![Flares Per Class Per Synodic Moon Day](flares-per-type-per-moon-day.svg)
-
-
 Usage:
 
 1) `download-txts.lua` ... for the old txt data

@@ -1,14 +1,27 @@
 #!/usr/bin/env luajit
-require 'ext'
+--require 'ext'
+local table = require 'ext.table'
+local string = require 'ext.string'
+local path = require 'ext.path'
+local assert = require 'ext.assert'
+local tolua = require 'ext.tolua'
 
+-- A-class = 10^-8 W/m^2
+-- B-class = 10^-7 W/m^2
+-- ... etc
+-- so intensity = 10^(index-9) = W/m^2
 local magkeys = table{'A', 'B', 'C', 'M', 'X'}
-local isvalid = magkeys:mapi(function(v,k) return k,v end):setmetatable(nil)
+local indexForFlareClass = magkeys:mapi(function(v,k) return k,v end):setmetatable(nil)
+local logIntensityForFlareClass = magkeys:mapi(function(className, classIndex) 
+	return classIndex-9, className
+end):setmetatable(nil)
 local totalFlareLevel = 1
 
 local secondsPerDay = 60 * 60 * 24
 local synodicMonth = 29.530	-- days for the moon to orbit the Earth relative to Sun
 
 local magsPerMoonDay = {}
+local intensityVsMoonPhase = table()	-- table of (x,y) = (moon phase [0,1], intensity in Watts)
 local magsPerUniqueDay = {}
 local magsPerMonth = {}
 local magsPerYear = {}
@@ -29,6 +42,7 @@ for _,f in ipairs(fs) do
 		local yearAndMonth
 		local uniqueDay
 		local moonDay
+		local moonPhase
 		if y then
 			filetype = 'dn'
 			year = y
@@ -36,6 +50,7 @@ for _,f in ipairs(fs) do
 			yearAndMonth = month-1 + 12 * year
 			local dayTime = os.time{year=year, month=month, day=d} / secondsPerDay
 			uniqueDay = math.floor(dayTime) 	-- TODO use julian day
+			moonPhase = (dayTime / synodicMonth) % 1
 			moonDay = math.floor(uniqueDay % synodicMonth)
 		else
 			year = f:match'^goes%-xrs%-report_(%d%d%d%d).*%.txt$'
@@ -55,12 +70,14 @@ for _,f in ipairs(fs) do
 			else
 				local x
 				if filetype == 'dn' then
-					local w = l:split'%s+'
+					local w = string.split(l, '%s+')
 					if w[3] == 'EVENT_PEAK' then
 						x = w[6]:sub(1,1)
+						local submagn = assert(w[6]:sub(2):match('^%d%.%d$'))
+						submagn = tonumber(submagn) or error("failed to parse "..tostring(submagn))
 						assert(x)
-						assert(isvalid[x])
-	--print(x)
+						assert(indexForFlareClass[x])
+--print(x)
 						if uniqueDay then
 							magsPerUniqueDay[uniqueDay] = magsPerUniqueDay[uniqueDay] or {}
 							magsPerUniqueDay[uniqueDay][x] = (magsPerUniqueDay[uniqueDay][x] or 0) + 1
@@ -69,10 +86,16 @@ for _,f in ipairs(fs) do
 							magsPerMoonDay[moonDay] = magsPerMoonDay[moonDay] or {}
 							magsPerMoonDay[moonDay][x] = (magsPerMoonDay[moonDay][x] or 0) + 1
 						end
+						if moonPhase then
+							intensityVsMoonPhase:insert{
+								moonPhase,
+								logIntensityForFlareClass[x] + submagn
+							}
+						end
 						magsPerMonth[yearAndMonth] = magsPerMonth[yearAndMonth] or {}
 						magsPerMonth[yearAndMonth][x] = (magsPerMonth[yearAndMonth][x] or 0) + 1
 						magsPerYear[year][x] = (magsPerYear[year][x] or 0) + 1
-						if isvalid[x] >= totalFlareLevel then
+						if indexForFlareClass[x] >= totalFlareLevel then
 							allFlaresPerMonth[yearAndMonth] = (allFlaresPerMonth[yearAndMonth] or 0) + 1
 						end
 					end
@@ -92,13 +115,25 @@ for _,f in ipairs(fs) do
 						or error("failed to get os.time() for "..tolua{year=y2, month=month, day=day})
 					) / secondsPerDay
 					uniqueDay = math.floor(dayTime) 	-- TODO use julian day
-					local synodicMonth = 29.530	-- days for the moon to orbit the Earth relative to Sun
+					moonPhase = (dayTime / synodicMonth) % 1
 					moonDay = math.floor(uniqueDay % synodicMonth)
 					-- lots of spaces within the values, values are strings, can't really tell where columns end
 					-- i'll just hope they are at the same indentation ...
 					x = l:sub(60,60)
 					assert(x)
-					if not isvalid[x] then
+					local submagn = l:sub(62,63)
+					if submagn == '  ' then
+						submagn = 0
+					elseif submagn:sub(2,2) == ' ' then
+						submagn = tonumber(submagn:sub(1,1)) or error("couldn't understand submagn "..tolua(submagn))
+					else
+						assert.eq(l:sub(64,64), ' ', "oops, sub-magnitude might be bigger...")
+						submagn = tonumber(submagn:sub(1,1)) + .1 * (
+							tonumber(submagn:sub(2,2)) 
+							or error("submagn isn't a two digit number: "..tolua(submagn))
+						)
+					end
+					if not indexForFlareClass[x] then
 						io.stderr:write('file: '..f..' line: '..line..' col 60 is '..('%q'):format(x)..'\n')
 					else
 --print(x)
@@ -110,10 +145,16 @@ for _,f in ipairs(fs) do
 							magsPerMoonDay[moonDay] = magsPerMoonDay[moonDay] or {}
 							magsPerMoonDay[moonDay][x] = (magsPerMoonDay[moonDay][x] or 0) + 1
 						end
+						if moonPhase then
+							intensityVsMoonPhase:insert{
+								moonPhase,
+								logIntensityForFlareClass[x] + submagn
+							}
+						end					
 						magsPerMonth[yearAndMonth] = magsPerMonth[yearAndMonth] or {}
 						magsPerMonth[yearAndMonth][x] = (magsPerMonth[yearAndMonth][x] or 0) + 1
 						magsPerYear[year][x] = (magsPerYear[year][x] or 0) + 1
-						if isvalid[x] >= totalFlareLevel then
+						if indexForFlareClass[x] >= totalFlareLevel then
 							allFlaresPerMonth[yearAndMonth] = (allFlaresPerMonth[yearAndMonth] or 0) + 1
 						end
 					end
@@ -196,6 +237,12 @@ for i=allMonths[1],allMonths:last() do
 		'\n'
 	)
 end
+
+path'all-flares-intensity-vs-moon-phase.txt':write(
+	intensityVsMoonPhase:mapi(function(p)
+		return table.concat(p, '\t')
+	end):concat'\n'..'\n'
+)
 
 print('current moon phase day:', (os.time() / secondsPerDay) % synodicMonth)
 
