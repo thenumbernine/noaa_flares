@@ -58,3 +58,20 @@ set xtics time
 set timefmt "%Y-%m"
 set format x "%Y" 
 plot fn using (timecolumn(1)):2 notitle
+
+fn = "flares-per-type-per-moon-day.txt"
+set style data lines
+set output "flares-per-type-per-moon-day.svg"
+set xlabel "moon phase day"
+set ylabel "count"
+unset timefmt
+unset format x
+set xtics 1
+unset xrange
+set log y
+plot fn using 1:(max($2,.1)):(0) title "A" linecolor rgb "blue" with filledcurves,\
+	fn using 1:(max($3,.1)):(0) title "B" linecolor rgb "cyan" with filledcurves,\
+	fn using 1:(max($4,.1)):(0) title "C" linecolor rgb "green" with filledcurves,\
+	fn using 1:(max($5,.1)):(0) title "M" linecolor rgb "orange" with filledcurves,\
+	fn using 1:(max($6,.1)):(0) title "X" linecolor rgb "red" with filledcurves
+unset log y
