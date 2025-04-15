@@ -22,6 +22,7 @@ local synodicMonth = 29.530	-- days for the moon to orbit the Earth relative to 
 
 local magsPerMoonDay = {}
 local intensityVsMoonPhase = table()	-- table of (x,y) = (moon phase [0,1], intensity in Watts)
+local intensityVsYearDay = table()
 local magsPerUniqueDay = {}
 local magsPerMonth = {}
 local magsPerYear = {}
@@ -39,16 +40,13 @@ for _,f in ipairs(fs) do
 		local filetype
 		local y,m,d,ver = f:match'^dn_xrsf%-l2%-flsum_g16_d(%d%d%d%d)(%d%d)(%d%d)_v(%d%-%d%-%d)%.txt$'
 	--print(y,m,d)
-		local yearAndMonth
-		local uniqueDay
-		local moonDay
-		local moonPhase
+		local yearAndMonth, uniqueDay, dayTime, moonDay, moonPhase
 		if y then
 			filetype = 'dn'
 			year = y
 			month = m
 			yearAndMonth = month-1 + 12 * year
-			local dayTime = os.time{year=year, month=month, day=d} / secondsPerDay
+			dayTime = os.time{year=year, month=month, day=d} / secondsPerDay
 			uniqueDay = math.floor(dayTime) 	-- TODO use julian day
 			moonPhase = (dayTime / synodicMonth) % 1
 			moonDay = math.floor(uniqueDay % synodicMonth)
@@ -86,12 +84,11 @@ for _,f in ipairs(fs) do
 							magsPerMoonDay[moonDay] = magsPerMoonDay[moonDay] or {}
 							magsPerMoonDay[moonDay][x] = (magsPerMoonDay[moonDay][x] or 0) + 1
 						end
+						local magn = logIntensityForFlareClass[x] + submagn
 						if moonPhase then
-							intensityVsMoonPhase:insert{
-								moonPhase,
-								logIntensityForFlareClass[x] + submagn
-							}
+							intensityVsMoonPhase:insert{moonPhase, magn}
 						end
+						intensityVsYearDay:insert{(dayTime / 365) % 1, magn}
 						magsPerMonth[yearAndMonth] = magsPerMonth[yearAndMonth] or {}
 						magsPerMonth[yearAndMonth][x] = (magsPerMonth[yearAndMonth][x] or 0) + 1
 						magsPerYear[year][x] = (magsPerYear[year][x] or 0) + 1
@@ -110,7 +107,7 @@ for _,f in ipairs(fs) do
 					yearAndMonth = month-1 + 12 * year
 					local d = l:sub(10,11)
 					local day = assert(tonumber(d))
-					local dayTime = (
+					dayTime = (
 						os.time{year=year, month=month, day=day}
 						or error("failed to get os.time() for "..tolua{year=y2, month=month, day=day})
 					) / secondsPerDay
@@ -145,12 +142,11 @@ for _,f in ipairs(fs) do
 							magsPerMoonDay[moonDay] = magsPerMoonDay[moonDay] or {}
 							magsPerMoonDay[moonDay][x] = (magsPerMoonDay[moonDay][x] or 0) + 1
 						end
+						local magn = logIntensityForFlareClass[x] + submagn
 						if moonPhase then
-							intensityVsMoonPhase:insert{
-								moonPhase,
-								logIntensityForFlareClass[x] + submagn
-							}
+							intensityVsMoonPhase:insert{moonPhase, magn}
 						end					
+						intensityVsYearDay:insert{(dayTime / 365) % 1, magn}
 						magsPerMonth[yearAndMonth] = magsPerMonth[yearAndMonth] or {}
 						magsPerMonth[yearAndMonth][x] = (magsPerMonth[yearAndMonth][x] or 0) + 1
 						magsPerYear[year][x] = (magsPerYear[year][x] or 0) + 1
@@ -240,6 +236,12 @@ end
 
 path'all-flares-intensity-vs-moon-phase.txt':write(
 	intensityVsMoonPhase:mapi(function(p)
+		return table.concat(p, '\t')
+	end):concat'\n'..'\n'
+)
+
+path'all-flares-intensity-vs-year-day.txt':write(
+	intensityVsYearDay:mapi(function(p)
 		return table.concat(p, '\t')
 	end):concat'\n'..'\n'
 )
