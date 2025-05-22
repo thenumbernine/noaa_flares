@@ -1,0 +1,20 @@
+name = "noaa_flares"
+files = {
+	["README.md"] = "noaa_flares/README.md",
+	["count-flares.lua"] = "noaa_flares/count-flares.lua",
+	["download-ncs.lua"] = "noaa_flares/download-ncs.lua",
+	["download-txts.lua"] = "noaa_flares/download-txts.lua",
+	["flares-per-type-per-month.svg"] = "noaa_flares/flares-per-type-per-month.svg",
+	["flares-per-type-per-year.svg"] = "noaa_flares/flares-per-type-per-year.svg",
+	["hdf5-test.lua"] = "noaa_flares/hdf5-test.lua",
+	["nc_to_txt.lua"] = "noaa_flares/nc_to_txt.lua",
+	["plot.gnuplot"] = "noaa_flares/plot.gnuplot",
+	["smoothplot.sh"] = "noaa_flares/smoothplot.sh",
+	["totalflares-per-month-smoothed.svg"] = "noaa_flares/totalflares-per-month-smoothed.svg",
+	["totalflares-per-month.svg"] = "noaa_flares/totalflares-per-month.svg",
+	["update.sh"] = "noaa_flares/update.sh",
+}
+deps = {
+	"ext",
+	"ffi",
+}
