@@ -38,7 +38,7 @@ for _,f in ipairs(fs) do
 	--print('f', f)
 		local year, month
 		local filetype
-		local y,m,d,ver = f:match'^dn_xrsf%-l2%-flsum_g16_d(%d%d%d%d)(%d%d)(%d%d)_v(%d%-%d%-%d)%.txt$'
+		local goes,y,m,d,ver = f:match'^dn_xrsf%-l2%-flsum_g(%d%d)_d(%d%d%d%d)(%d%d)(%d%d)_v(%d%-%d%-%d)%.txt$'
 	--print(y,m,d)
 		local yearAndMonth, uniqueDay, dayTime, moonDay, moonPhase
 		if y then
@@ -56,7 +56,7 @@ for _,f in ipairs(fs) do
 				filetype = 'report'
 			end
 		end
-		assert(year)
+		assert(year, "failed to deduce year from filename "..f)
 		assert(filetype)
 		--magsPerMonth[yearAndMonth] = magsPerMonth[yearAndMonth] or {}
 		magsPerYear[year] = magsPerYear[year] or {}
