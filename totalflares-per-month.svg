@@ -213,7 +213,8 @@
 		L1918.59,386.71 L1921.90,468.93 L1925.11,415.27 L1928.42,511.34 L1931.73,467.20 L1934.93,532.98 L1938.24,518.26 L1941.45,430.85
 		L1944.76,422.19 L1948.07,457.68 L1951.16,447.29 L1954.47,279.39 L1957.68,25.80 L1960.99,143.51 L1964.19,122.73 L1967.50,109.75
 		L1970.81,347.76 L1974.02,248.23 L1977.33,198.03 L1980.53,36.19 L1983.84,234.38 L1987.15,181.59 L1990.14,310.54 L1993.45,474.12
-		L1996.66,474.12 L1999.97,677.51  '/>	<use xlink:href='#gpPt0' transform='translate(72.53,694.82) scale(4.50)' color='rgb(148,   0, 211)'/>
+		L1996.66,474.12 L1999.97,499.22 L2003.17,539.90 L2006.48,465.47 L2009.79,545.09 L2013.00,516.53 L2016.31,415.27 L2019.51,455.95
+		L2022.82,585.77  '/>	<use xlink:href='#gpPt0' transform='translate(72.53,694.82) scale(4.50)' color='rgb(148,   0, 211)'/>
 	<use xlink:href='#gpPt0' transform='translate(75.84,710.40) scale(4.50)' color='rgb(148,   0, 211)'/>
 	<use xlink:href='#gpPt0' transform='translate(78.94,661.07) scale(4.50)' color='rgb(148,   0, 211)'/>
 	<use xlink:href='#gpPt0' transform='translate(82.25,691.36) scale(4.50)' color='rgb(148,   0, 211)'/>
@@ -806,7 +807,14 @@
 	<use xlink:href='#gpPt0' transform='translate(1990.14,310.54) scale(4.50)' color='rgb(148,   0, 211)'/>
 	<use xlink:href='#gpPt0' transform='translate(1993.45,474.12) scale(4.50)' color='rgb(148,   0, 211)'/>
 	<use xlink:href='#gpPt0' transform='translate(1996.66,474.12) scale(4.50)' color='rgb(148,   0, 211)'/>
-	<use xlink:href='#gpPt0' transform='translate(1999.97,677.51) scale(4.50)' color='rgb(148,   0, 211)'/>
+	<use xlink:href='#gpPt0' transform='translate(1999.97,499.22) scale(4.50)' color='rgb(148,   0, 211)'/>
+	<use xlink:href='#gpPt0' transform='translate(2003.17,539.90) scale(4.50)' color='rgb(148,   0, 211)'/>
+	<use xlink:href='#gpPt0' transform='translate(2006.48,465.47) scale(4.50)' color='rgb(148,   0, 211)'/>
+	<use xlink:href='#gpPt0' transform='translate(2009.79,545.09) scale(4.50)' color='rgb(148,   0, 211)'/>
+	<use xlink:href='#gpPt0' transform='translate(2013.00,516.53) scale(4.50)' color='rgb(148,   0, 211)'/>
+	<use xlink:href='#gpPt0' transform='translate(2016.31,415.27) scale(4.50)' color='rgb(148,   0, 211)'/>
+	<use xlink:href='#gpPt0' transform='translate(2019.51,455.95) scale(4.50)' color='rgb(148,   0, 211)'/>
+	<use xlink:href='#gpPt0' transform='translate(2022.82,585.77) scale(4.50)' color='rgb(148,   0, 211)'/>
 </g>
 	</g>
 <g fill="none" color="#FFFFFF" stroke="rgb(148,   0, 211)" stroke-width="2.00" stroke-linecap="butt" stroke-linejoin="miter">
