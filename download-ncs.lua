@@ -26,8 +26,9 @@ local function echo(...)
 	return ...
 end
 local versReversed = {
-	'_v2-2-0',
-	'_v2-1-0',
+	'_v2-2-1',		-- since 2026-01-20
+--	'_v2-2-0',
+--	'_v2-1-0',
 }
 local today = os.date'*t'
 path'nc':mkdir(true)
@@ -39,11 +40,13 @@ for t=os.time{year=today.year, month=today.month, day=today.day},0,-24*60*60 do
 	local ds = ('%02d'):format(d.day)
 
 	for _,goes in ipairs{
-		'18',	-- goes18 starts up getting xrsf flsum in 2022
-		'16',	-- goes16 stopped 2025-04-07
+		'19',	-- goes19 starts up getting xrsf flsum in 2025
+--		'18',	-- goes18 starts up getting xrsf flsum in 2022
+--		'16',	-- goes16 stopped 2025-04-07
 	} do
 		for _,ver in ipairs(versReversed) do	-- I forget when goes16 switched to v2.2.0 from v2.1.0
-			-- TODO goes16 doesn't have xrsf-l2-flsum anymore,but it's in goes18
+			-- TODO goes16 doesn't have xrsf-l2-flsum anymore, but it's in goes18 ... or goes19 ...
+			-- ex:       https://data.ngdc.noaa.gov/platforms/solar-space-observing-satellites/goes/goes   19     /l2/data/xrsf-l2-flsum/2026/02/dn_xrsf-l2-flsum_g19_d20260201_v2-2-1.nc
 			local url = 'https://data.ngdc.noaa.gov/platforms/solar-space-observing-satellites/goes/goes'..goes..'/l2/data/xrsf-l2-flsum/'
 
 			-- TODO instead search for *any* file with this timestamp of *any* version
